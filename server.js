@@ -60,11 +60,13 @@ server.get("/", (req, res) => {
 });
 
 // http://localhost:3002/books?email=mohammadatta97@gmail.com
-server.get("/books", getFavBook);
+server.get("/books", getFavBook); // read
 //
-server.post("/addbook", addNewBook);
+server.post("/addbook", addNewBook); // add
+//
+server.delete("/deletebook/:id", deleteBook); // delete
 
-//  functions
+// //////////////////  functions  /////////////////////
 function getFavBook(req, res) {
   let { email } = req.query;
   // let userNameo = req.query.userName;
@@ -90,9 +92,29 @@ function addNewBook(req, res) {
         name: bookName,
         description: description,
         img: imgUrl,
-        status: state,
+        states: state,
       });
-      console.log(newData[0].books);
+      // console.log(newData[0].books);
+      newData[0].save();
+      res.send(newData[0].books);
+    }
+  });
+}
+//
+function deleteBook(req, res) {
+  let { email } = req.query;
+  let index = Number(req.params.id);
+  myUserModel.find({ email: email }, (error, newData) => {
+    if (error) {
+      res.send("something error , DELETE");
+    } else {
+      const response = newData[0].books.filter((element, idx) => {
+        if (idx !== index) {
+          return element;
+        }
+      });
+      newData[0].books = response;
+      // console.log( newData[0].books);
       newData[0].save();
       res.send(newData[0].books);
     }
