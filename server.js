@@ -10,7 +10,7 @@ server.use(cors());
 const { req, res } = require("express");
 
 // ////////////////////////////////////////////
-const reFromSchema = require("./schemas");
+const myUserModel = require("./schemas");
 // /////////////////////////////////////////////
 
 mongoose.connect("mongodb://localhost:27017/books", {
@@ -21,7 +21,7 @@ mongoose.connect("mongodb://localhost:27017/books", {
 //
 
 function seedOwerCollection() {
-  const mohammad = new reFromSchema.myUserModel({
+  const mohammad = new myUserModel({
     email: "mohammadatta97@gmail.com",
     books: [
       {
@@ -59,7 +59,6 @@ server.get("/", (req, res) => {
   res.send("its working");
 });
 
-// http://localhost:3002/books?userName=<mohammad>
 // http://localhost:3002/books?email=mohammadatta97@gmail.com
 server.get("/books", getFavBook);
 //  function
@@ -68,7 +67,7 @@ function getFavBook(req, res) {
   // let userNameo = req.query.userName;
   // or // let {userName} = req.query;
 
-  reFromSchema.myUserModel.find({ email: email }, (error, userData) => {
+  myUserModel.find({ email: email }, (error, userData) => {
     if (error) {
       res.send("we have error");
     } else {
