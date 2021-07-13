@@ -8,7 +8,7 @@ const PORT = process.env.PORT;
 const server = express();
 server.use(cors());
 const { req, res } = require("express");
-
+server.use(express.json());
 // ////////////////////////////////////////////
 const myUserModel = require("./schemas");
 // /////////////////////////////////////////////
@@ -61,7 +61,10 @@ server.get("/", (req, res) => {
 
 // http://localhost:3002/books?email=mohammadatta97@gmail.com
 server.get("/books", getFavBook);
-//  function
+//
+server.post("/addbook", addNewBook);
+
+//  functions
 function getFavBook(req, res) {
   let { email } = req.query;
   // let userNameo = req.query.userName;
@@ -73,7 +76,26 @@ function getFavBook(req, res) {
     } else {
       res.send(userData[0].books);
     }
-    console.log(userData);
+    // console.log(userData);
+  });
+}
+//
+function addNewBook(req, res) {
+  const { bookName, description, imgUrl, state, email } = req.body;
+  myUserModel.find({ email: email }, (error, newData) => {
+    if (error) {
+      response.send("something went wrong POST");
+    } else {
+      newData[0].books.push({
+        name: bookName,
+        description: description,
+        img: imgUrl,
+        status: state,
+      });
+      console.log(newData[0].books);
+      newData[0].save();
+      res.send(newData[0].books);
+    }
   });
 }
 
