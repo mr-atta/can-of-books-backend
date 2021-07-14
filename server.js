@@ -65,6 +65,8 @@ server.get("/books", getFavBook); // read
 server.post("/addbook", addNewBook); // add
 //
 server.delete("/deletebook/:id", deleteBook); // delete
+//
+server.put("/updatebook/:id", updateBook); // update
 
 // //////////////////  functions  /////////////////////
 function getFavBook(req, res) {
@@ -118,6 +120,27 @@ function deleteBook(req, res) {
       newData[0].save();
       res.send(newData[0].books);
     }
+  });
+}
+
+function updateBook(req, res) {
+  const { bookName, description, imgUrl, state, email } = req.body;
+  let index = Number(req.params.id);
+  myUserModel.findOne({ email: email }, (error, newData) => {
+    if (error) {
+      response.send("something went wrong PUT");
+    } else {
+      // console.log(newData);
+      newData.books.splice(index, 1, {
+        name: bookName,
+        description: description,
+        img: imgUrl,
+        states: state,
+      });
+    }
+    console.log(newData);
+    newData.save();
+    res.send(newData.books);
   });
 }
 

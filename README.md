@@ -50,3 +50,15 @@ Start time: __2:10___
 Finish time: __8:30___
 
 Actual time needed to complete: __5:20 hour___ -->
+
+<!-- lab 14 -->
+
+<!-- Name of feature: lab 14 / step 1
+
+Estimate of time needed to complete: _ hour____
+
+Start time: __1:30___
+
+Finish time: __4:30___
+
+Actual time needed to complete: __3 hour___ -->
